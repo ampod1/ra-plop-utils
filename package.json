@@ -1,0 +1,28 @@
+{
+  "name": "@abdelmomen1985/ra-plop-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node dist",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ampod1/ra-plop-utils.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ampod1/ra-plop-utils/issues"
+  },
+  "homepage": "https://github.com/ampod1/ra-plop-utils#readme",
+  "devDependencies": {
+    "@types/node": "^16.7.10",
+    "@types/react": "^17.0.19",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {}
+}
