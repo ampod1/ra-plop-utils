@@ -3,8 +3,9 @@ import {
   getTableComments,
   getTableFields,
   getTableForeignKeys,
-} from "./src/hasuraTableInfo";
-import { createElementFromColumn } from "./src/index";
+} from "./hasuraTableInfo";
+import { createElementFromColumn } from "./index";
+import { ColumnType } from "./types";
 export default function (plop: NodePlopAPI) {
   plop.setGenerator("list", {
     description: "this is a skeleton plop react admin list file",
@@ -34,7 +35,9 @@ export default function (plop: NodePlopAPI) {
 
         console.log(cols, tableComments, foreignKeys);
 
-        console.log(createElementFromColumn({ column_name: cols[1][0] }));
+        console.log(
+          createElementFromColumn({ column_name: cols[1][0] } as ColumnType)
+        );
         return "getResource";
       },
     ],

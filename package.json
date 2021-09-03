@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist",
-    "prepublish": "tsc"
+    "prepublish": "tsc",
+    "plopit": "tsc && plop --plopfile dist/plop.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,8 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
-    "inflection": "^1.13.1"
+    "axios": "^0.21.1",
+    "inflection": "^1.13.1",
+    "plop": "^2.7.4"
   }
 }
