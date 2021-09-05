@@ -1,0 +1,15 @@
+
+POST https://caring-labrador-34.hasura.app/v2/query
+Content-Type: application/json
+X-Hasura-Role: admin
+x-hasura-admin-secret: bzVu3Vj5YcCqqCMilt0oro4Dg1bWeMWVJQlazLaQiJRhxnfjFI2IdjHJjJzKaxug
+
+{
+  "type": "run_sql",
+  "args": {
+    // Retrieving table columns with comments
+    //"sql":"SELECT cols.column_name, cols.data_type, ( SELECT pg_catalog.col_description(c.oid, cols.ordinal_position::int) FROM pg_catalog.pg_class c WHERE c.oid = ( SELECT cols.table_name::regclass::oid ) AND c.relname = cols.table_name ) as column_comment FROM information_schema.columns cols WHERE cols.table_name = 'mnt_city';"
+    // Retrieving table comments
+    "sql":"SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;"
+  }
+}

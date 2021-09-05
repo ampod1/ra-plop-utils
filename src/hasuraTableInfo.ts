@@ -1,10 +1,26 @@
 import Axios from "axios";
-const headers = {
-  "Content-Type": "application/json",
-  "X-Hasura-Role": "admin",
-  "x-hasura-admin-secret":
-    "bzVu3Vj5YcCqqCMilt0oro4Dg1bWeMWVJQlazLaQiJRhxnfjFI2IdjHJjJzKaxug",
-};
+
+async function hasuraSqlResults(sql: string) {
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Hasura-Role": "admin",
+    "x-hasura-admin-secret":
+      "bzVu3Vj5YcCqqCMilt0oro4Dg1bWeMWVJQlazLaQiJRhxnfjFI2IdjHJjJzKaxug",
+  };
+
+  const postData = {
+    type: "run_sql",
+    args: {
+      sql,
+    },
+  };
+  const { data } = await Axios.post(
+    "https://caring-labrador-34.hasura.app/v2/query",
+    postData,
+    { headers }
+  );
+  return data;
+}
 
 async function getTableFields(resource: string) {
   const sql = `
@@ -18,38 +34,22 @@ async function getTableFields(resource: string) {
     ) as column_comment
     FROM information_schema.columns cols WHERE cols.table_name = '${resource}';
   `;
-  const postData = {
-    type: "run_sql",
-    args: {
-      sql,
-    },
-  };
 
-  const { data } = await Axios.post(
-    "https://caring-labrador-34.hasura.app/v2/query",
-    postData,
-    { headers }
-  );
-  return data;
+  return await hasuraSqlResults(sql);
 }
 
 async function getTableComments(resource: string) {
   const sql = `
     select obj_description('public.${resource}'::regclass);
   `;
-  const postData = {
-    type: "run_sql",
-    args: {
-      sql,
-    },
-  };
+  return await hasuraSqlResults(sql);
+}
 
-  const { data } = await Axios.post(
-    "https://caring-labrador-34.hasura.app/v2/query",
-    postData,
-    { headers }
-  );
-  return data;
+async function getSchemaTables() {
+  const sql = `
+    SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;
+  `;
+  return await hasuraSqlResults(sql);
 }
 
 async function getTableForeignKeys(resource: string) {
@@ -68,18 +68,6 @@ FROM
       AND ccu.table_schema = tc.table_schema
 WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_name='${resource}';
   `;
-  const postData = {
-    type: "run_sql",
-    args: {
-      sql,
-    },
-  };
-
-  const { data } = await Axios.post(
-    "https://caring-labrador-34.hasura.app/v2/query",
-    postData,
-    { headers }
-  );
-  return data;
+  return await hasuraSqlResults(sql);
 }
 export { getTableFields, getTableForeignKeys, getTableComments };
